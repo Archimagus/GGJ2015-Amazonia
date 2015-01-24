@@ -1,33 +1,37 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(CharacterController), typeof(Animator))]
 public class CharacterMovement : MonoBehaviour 
 {
 
-	float speed = 5.0f;
-	float gravity = 20.0f;
-	Vector3 moveDirection = Vector3.zero;
-	CharacterController controller;
+	public float Speed = 5.0f;
+	float _gravity = 9.8f;
+	Vector3 _moveDirection = Vector3.zero;
+	CharacterController _controller;
+	Animator _animator;
 	// Use this for initialization
 	void Start () 
 	{
-	
+		_animator = GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		controller = GetComponent<CharacterController>();
-		if(controller.isGrounded)
+		_controller = GetComponent<CharacterController>();
+		if(_controller.isGrounded)
 		{
-			moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-			moveDirection = transform.TransformDirection(moveDirection);
+			_moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+			_moveDirection = transform.TransformDirection(_moveDirection);
 
-			moveDirection *= speed * Time.deltaTime;
+			_moveDirection *= Speed * Time.deltaTime;
 
 		}
-		moveDirection.y -= gravity * Time.deltaTime;
-		controller.Move(moveDirection);
-	}
+		_moveDirection.y -= _gravity * Time.deltaTime;
+		_controller.Move(_moveDirection);
 
+		_animator.SetFloat("Speed", _controller.velocity.magnitude);
+
+	}
 }
