@@ -7,7 +7,6 @@ public class DartShooter : MonoBehaviour {
 	public float dartSpeed = 5;
 	float currentTime = 0;
 	bool activated = false;
-	bool raised = false;
 	// Use this for initialization
 	void Start () 
 	{
