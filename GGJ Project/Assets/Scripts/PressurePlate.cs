@@ -7,6 +7,7 @@ public class PressurePlate : MonoBehaviour {
 	public GameObject[] controlledObject;
 	public GameObject pressurePlate;
 	public float weightTrigger = 1;
+	public bool requireHoldingChest = false;
 	float dropValue = 0.1f;
 	bool activated = false;
 	// Use this for initialization
@@ -30,14 +31,18 @@ public class PressurePlate : MonoBehaviour {
 	{
 		if(col.rigidbody != null && col.rigidbody.mass >= weightTrigger)
 		{
-			pressurePlate.transform.position = new Vector3(pressurePlate.transform.position.x, pressurePlate.transform.position.y-dropValue, pressurePlate.transform.position.z);
-			activated = true;
-			audio.clip = clips[0];
-			audio.Play();
-			if(controlledObject.Length > 0)
+			var player = col.GetComponent<CharacterMovement>();
+			if (!requireHoldingChest || player != null && player.carryingChest)
 			{
-                for(int i = 0; i < controlledObject.Length; i++)
-				    controlledObject[i].SendMessage("OnActivated");
+				pressurePlate.transform.position = new Vector3(pressurePlate.transform.position.x, pressurePlate.transform.position.y - dropValue, pressurePlate.transform.position.z);
+				activated = true;
+				audio.clip = clips[0];
+				audio.Play();
+				if (controlledObject.Length > 0)
+				{
+					for (int i = 0; i < controlledObject.Length; i++)
+						controlledObject[i].SendMessage("OnActivated");
+				}
 			}
 		}
 	}
