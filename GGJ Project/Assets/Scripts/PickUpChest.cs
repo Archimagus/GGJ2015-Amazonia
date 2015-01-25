@@ -21,12 +21,11 @@ public class PickUpChest : MonoBehaviour {
 
 	void OnTriggerStay(Collider col)
 	{
-		if(col.gameObject.tag == "Chest")
+		if(col.gameObject.tag == "Chest" && !player.GetComponent<CharacterMovement>().carryingChest)
 		{
 			canPush = true;
 			if(Input.GetKeyDown(KeyCode.Space))
 			{
-				transform.parent.SendMessage("PickUpChest", col.transform);
 
 				float dotProduct = Vector3.Dot(col.gameObject.transform.forward, player.transform.forward);
 				
@@ -60,9 +59,7 @@ public class PickUpChest : MonoBehaviour {
 				if(!isAligned)
 					return;
 
-				transform.parent.SendMessage("OnCarryingChest");
-				col.transform.parent = chestNode.transform;
-				col.transform.position = chestNode.transform.position;
+				transform.parent.SendMessage("PickUpChest", col.transform);
 			}
 
 		}
