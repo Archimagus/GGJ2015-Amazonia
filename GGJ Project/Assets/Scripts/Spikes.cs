@@ -13,7 +13,6 @@ public class Spikes : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-	
 	}
 	
 	// Update is called once per frame
@@ -31,11 +30,14 @@ public class Spikes : MonoBehaviour {
 		//BEFORE SPIKES RISE
 		if(currentTime > 2 && !activated)
 		{
+			if(!audio.isPlaying)
+				audio.Play();
 			activated = true;
 		}
 
 		if(activated && raised == false)
 		{
+			audio.Play();
 			float step = 5 * Time.deltaTime;
 			transform.position = Vector3.MoveTowards(this.transform.position, activeTarget.position, step);
 
@@ -66,7 +68,6 @@ public class Spikes : MonoBehaviour {
 
 	public void OnActivated()
 	{
-		Debug.Log("spikes deactivated");
 		active = false;
 	}
 	

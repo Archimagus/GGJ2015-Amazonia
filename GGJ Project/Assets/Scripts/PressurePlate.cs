@@ -3,6 +3,7 @@ using System.Collections;
 
 public class PressurePlate : MonoBehaviour {
 
+	public AudioClip[] clips = new AudioClip[2];
 	public GameObject[] controlledObject;
 	public GameObject pressurePlate;
 	public float weightTrigger = 1;
@@ -11,7 +12,7 @@ public class PressurePlate : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-		//pressurePlate = GameObject.Find("PressurePlate");
+
 	}
 	
 	// Update is called once per frame
@@ -31,6 +32,8 @@ public class PressurePlate : MonoBehaviour {
 		{
 			pressurePlate.transform.position = new Vector3(pressurePlate.transform.position.x, pressurePlate.transform.position.y-dropValue, pressurePlate.transform.position.z);
 			activated = true;
+			audio.clip = clips[0];
+			audio.Play();
 			if(controlledObject.Length > 0)
 			{
                 for(int i = 0; i < controlledObject.Length; i++)
@@ -45,6 +48,8 @@ public class PressurePlate : MonoBehaviour {
 		{
 			pressurePlate.transform.position = new Vector3(pressurePlate.transform.position.x, pressurePlate.transform.position.y+dropValue, pressurePlate.transform.position.z);
 			activated = false;
+			audio.clip = clips[1];
+			audio.Play();
 			 for(int i = 0; i < controlledObject.Length; i++)
 				    controlledObject[i].SendMessage("OnDeactivated");
 		}

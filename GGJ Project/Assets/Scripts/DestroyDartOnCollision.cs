@@ -3,18 +3,21 @@ using System.Collections;
 
 public class DestroyDartOnCollision : MonoBehaviour {
 
+	public GameObject impact;
 	// Use this for initialization
-	void Start () {
-	
+	void Start () 
+	{
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update () 
+	{
 	
 	}
 
 	void OnTriggerEnter(Collider col)
 	{
+		Instantiate(impact, col.transform.position, col.transform.rotation);
 		Destroy(this.gameObject);
 	}
 }
