@@ -5,7 +5,7 @@ public class UIManagerScript : MonoBehaviour
 {
     public void StartGame()
     {
-        Application.LoadLevel("adfasdfasdf");
+        Application.LoadLevel("TestingScene555");
     }
     
 	public void Credits()
