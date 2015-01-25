@@ -51,8 +51,10 @@
      <Compile Include="Assets\Scripts\CharacterMovement.cs" />
      <Compile Include="Assets\Scripts\DartShooter.cs" />
      <Compile Include="Assets\Scripts\DestroyObject.cs" />
+     <Compile Include="Assets\Scripts\FollowCamera.cs" />
      <Compile Include="Assets\Scripts\SpikeStopper.cs" />
      <Compile Include="Assets\Scripts\Spikes.cs" />
+     <Compile Include="Assets\Scripts\UIManagerScript.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.1/UnityEngine.UI.dll</HintPath>
  </Reference>
