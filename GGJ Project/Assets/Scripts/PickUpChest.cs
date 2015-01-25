@@ -9,7 +9,7 @@ public class PickUpChest : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-		chestNode = transform.parent.FindChild("ChestNode").gameObject;
+		chestNode = GameObject.Find("ChestNode");
 		player = GameObject.Find("Player");
 	}
 	
