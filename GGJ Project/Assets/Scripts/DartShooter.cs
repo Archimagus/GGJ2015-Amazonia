@@ -37,6 +37,7 @@ public class DartShooter : MonoBehaviour {
 			d.transform.Rotate(new Vector3(90, 0, 0));
 			d.GetComponent<Rigidbody>().velocity = transform.forward * dartSpeed;
 			currentTime = 0;
+			audio.Play();
 			activated = false;
 		}
 	}
