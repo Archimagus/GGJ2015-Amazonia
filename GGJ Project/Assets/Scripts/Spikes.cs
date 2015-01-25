@@ -30,6 +30,8 @@ public class Spikes : MonoBehaviour {
 		//BEFORE SPIKES RISE
 		if(currentTime > 2 && !activated)
 		{
+			if(!audio.isPlaying)
+				audio.Play();
 			activated = true;
 		}
 

@@ -6,6 +6,10 @@ public class CharacterMovement : MonoBehaviour
 {
 	public AudioClip PickUpSound;
 	public AudioClip DropSound;
+	public ParticleSystem DamageParticles;
+	public ParticleSystem DamageParticlesNoCoins;
+	public AudioClip DamageSoundWithCoins;
+	public AudioClip DamageSoundNoCoins;
 
 	public int coins = 100;
 	public float Speed = 5.0f;
@@ -209,19 +213,37 @@ public class CharacterMovement : MonoBehaviour
 	{
 		var damage = other.GetComponent<PlayerDamager>();
 		if (damage != null)
+		{
+			DamageParticlesNoCoins.transform.LookAt(other.transform);
+			DamageParticlesNoCoins.Play();
 			TakeDamage(damage.DamageAmmount);
+		}
 	}
 
 	public void OnCollisionEnter(Collision collision)
 	{
 		var damage = collision.gameObject.GetComponent<PlayerDamager>();
 		if (damage != null)
+		{
+			DamageParticlesNoCoins.transform.LookAt(collision.transform);
+			DamageParticlesNoCoins.Play();
 			TakeDamage(damage.DamageAmmount);
+		}
 
 	}
 	
 	public void TakeDamage(int damage)
 	{
+		if (carryingChest)
+		{
+			DamageParticles.Play();
+			this.PlaySoundEffect(DamageSoundNoCoins);
+			this.PlaySoundEffect(DamageSoundWithCoins);
+		}
+		else
+		{
+			this.PlaySoundEffect(DamageSoundNoCoins);
+		}
 		coins -= damage;
 		if (coins < 0)
 			coins = 0;
