@@ -16,9 +16,7 @@ public class SpikeStopper : MonoBehaviour {
 	}
 
 	void OnTriggerStay(Collider col)
-	{
-		Debug.Log("Triggered Collision");
-		
+	{		
 		if(col.gameObject.tag == "Chest")
 		{
 			spikes.SendMessage("ResetCurrentTime");

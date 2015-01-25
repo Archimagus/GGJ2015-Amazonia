@@ -4,14 +4,19 @@ using System.Collections;
 [RequireComponent(typeof(CharacterController), typeof(Animator))]
 public class CharacterMovement : MonoBehaviour 
 {
+	public AudioClip PickUpSound;
+	public AudioClip DropSound;
+
+
 	public float Speed = 5.0f;
 	public float SlowRatio = 0.5f;
 	public float RotationSpeed = 10.0f;
 	public bool carryingChest = false;
 	public bool pushingChest = false;
 	private bool performingActionAnimation = false;
-	float gravity = 20.0f;
+	float gravity = 9.8f;
 	float canDropTimer = 0.5f;
+	public float ExertionTime{get; private set;}
 
 	Vector3 moveDirection = Vector3.zero;
 	CharacterController controller;
@@ -67,8 +72,19 @@ public class CharacterMovement : MonoBehaviour
 			Vector3 V_Distance = transform.position - pushingObject.transform.position;
 
 		}
+		float speed = controller.velocity.magnitude / Speed;
+		animator.SetFloat("Speed", speed);
 
-		animator.SetFloat("Speed", controller.velocity.magnitude / Speed);
+		if(speed > 0.5f || (speed > 0.2f && carryingChest))
+		{
+			ExertionTime += Time.deltaTime;
+		}
+		else
+		{
+			ExertionTime -= 2*Time.deltaTime;
+		}
+		ExertionTime = Mathf.Clamp(ExertionTime, 0, 11);
+
 	}
 	public void Pushed()
 	{
@@ -87,6 +103,7 @@ public class CharacterMovement : MonoBehaviour
 			pickedUpObject.rigidbody.isKinematic = true;
 			pickedUpObjectLayer = pickedUpObject.gameObject.layer;
 			pickedUpObject.gameObject.layer = LayerMask.NameToLayer("HeldObject");
+			this.PlaySoundEffect(PickUpSound);
 		}
 	}
 
@@ -109,6 +126,7 @@ public class CharacterMovement : MonoBehaviour
 		pickedUpObject.gameObject.layer = pickedUpObjectLayer;
 		pickedUpObject.transform.parent = null;
 		pickedUpObject.rigidbody.isKinematic = false;
+		this.PlaySoundEffect(DropSound);
 	}
 
 	public bool IsPushingChest()

@@ -61,7 +61,6 @@ public class Spikes : MonoBehaviour {
 	public void ResetCurrentTime()
 	{
 		currentTime = 0;
-		Debug.Log("Triggered");
 	}
 
 	public void OnActivated()

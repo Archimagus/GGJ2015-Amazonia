@@ -30,7 +30,6 @@ public class PickUpChest : MonoBehaviour {
 				float dotProduct = Vector3.Dot(col.gameObject.transform.forward, player.transform.forward);
 				
 				dotProduct = Mathf.Abs(dotProduct);
-				Debug.Log("ZAxis "+dotProduct);
 
 				dotProduct = 1 - dotProduct;
 				float epsilon = 0.05f;
@@ -44,7 +43,6 @@ public class PickUpChest : MonoBehaviour {
 					dotProduct = Vector3.Dot(col.gameObject.transform.right, player.transform.forward);
 					
 					dotProduct = Mathf.Abs(dotProduct);
-					Debug.Log("XAxis "+dotProduct);
 					
 					dotProduct = 1 - dotProduct;
 					
