@@ -11,8 +11,10 @@ public class CharacterMovement : MonoBehaviour
 	public float Speed = 5.0f;
 	public float SlowRatio = 0.5f;
 	public float RotationSpeed = 10.0f;
+	public bool carryingBoulder = false;
 	public bool carryingChest = false;
 	public bool pushingChest = false;
+	bool dropped = false;
 	private bool performingActionAnimation = false;
 	float gravity = 9.8f;
 	float canDropTimer = 0.5f;
@@ -43,10 +45,25 @@ public class CharacterMovement : MonoBehaviour
 
 			if(canDropTimer < 0 && Input.GetButtonDown("Jump"))
 			{
-				DropChest();
 				canDropTimer = 0.5f;
+				DropChest();
 			}
 		}
+
+
+		if(carryingBoulder == true)
+		{
+			canDropTimer -= Time.deltaTime;
+			
+			if(canDropTimer < 0 && Input.GetButtonDown("Jump"))
+			{
+				canDropTimer = 0.5f;
+				DropBoulder();
+			}
+		}
+
+
+
 
 		//transform.Rotate(new Vector3(0, 90 * Time.deltaTime, 0));
 		controller = GetComponent<CharacterController>();
@@ -60,6 +77,8 @@ public class CharacterMovement : MonoBehaviour
 			if(carryingChest)
 				ratio = SlowRatio;
 			if(pushingChest)
+				ratio = SlowRatio;
+			if(carryingBoulder)
 				ratio = SlowRatio;
 			moveDirection *= ratio * Speed * Time.deltaTime;
 		}
@@ -111,6 +130,15 @@ public class CharacterMovement : MonoBehaviour
 	{
 		return carryingChest;
 	}
+	public bool IsCarryingBoulder()
+	{
+		return carryingBoulder;
+	}
+
+	public bool Dropped()
+	{
+		return dropped;
+	}
 
 	public void PickUpChest(Transform ob)
 	{
@@ -129,6 +157,24 @@ public class CharacterMovement : MonoBehaviour
 		this.PlaySoundEffect(DropSound);
 	}
 
+	public void PickUpBoulder(Transform ob)
+	{
+		carryingBoulder = true;
+		pickedUpObject = ob;
+		animator.SetTrigger("Lift");
+		performingActionAnimation = true;
+	}
+	public void DropBoulder()
+	{
+		carryingBoulder = false;
+		animator.SetBool("Lifting", false);
+		
+		pickedUpObject.gameObject.layer = pickedUpObjectLayer;
+		pickedUpObject.transform.parent = null;
+		pickedUpObject.rigidbody.isKinematic = false;
+		this.PlaySoundEffect(DropSound);
+	}
+	
 	public bool IsPushingChest()
 	{
 		return pushingChest;
