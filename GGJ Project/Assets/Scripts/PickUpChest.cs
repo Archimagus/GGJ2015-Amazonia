@@ -52,14 +52,20 @@ public class PickUpChest : MonoBehaviour {
 					}
 				}
 
-
-
 				if(!isAligned)
 					return;
 
 				transform.parent.SendMessage("PickUpChest", col.transform);
 			}
 
+		}
+		if(col.gameObject.tag == "Boulder" && !player.GetComponent<CharacterMovement>().carryingBoulder)
+		{
+			canPush = true;
+			if(Input.GetButtonDown("Jump"))
+			{
+				transform.parent.SendMessage("PickUpBoulder", col.transform);
+			}
 		}
 	}
 

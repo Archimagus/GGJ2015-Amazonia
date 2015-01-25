@@ -23,6 +23,7 @@ public class Spikes : MonoBehaviour {
 
 		if(!active && !activated && !raised)
 			return;
+
 		delay -= Time.deltaTime;
 		if(!activated && delay < 0)
 			currentTime += Time.deltaTime;
@@ -65,6 +66,7 @@ public class Spikes : MonoBehaviour {
 
 	public void OnActivated()
 	{
+		Debug.Log("spikes deactivated");
 		active = false;
 	}
 	
