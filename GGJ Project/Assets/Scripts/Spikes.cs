@@ -9,6 +9,7 @@ public class Spikes : MonoBehaviour {
 	float currentTime = 0;
 	bool activated = false;
 	bool raised = false;
+	bool active = true;
 	// Use this for initialization
 	void Start () 
 	{
@@ -18,6 +19,10 @@ public class Spikes : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
+
+
+		if(!active && !activated && !raised)
+			return;
 		delay -= Time.deltaTime;
 		if(!activated && delay < 0)
 			currentTime += Time.deltaTime;
@@ -57,6 +62,16 @@ public class Spikes : MonoBehaviour {
 	{
 		currentTime = 0;
 		Debug.Log("Triggered");
+	}
+
+	public void OnActivated()
+	{
+		active = false;
+	}
+	
+	public void OnDeactivated()
+	{
+		active = true;
 	}
 
 

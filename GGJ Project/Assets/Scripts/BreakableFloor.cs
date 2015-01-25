@@ -3,28 +3,35 @@ using System.Collections;
 
 public class BreakableFloor : MonoBehaviour {
 
-	float life = 3.0f;
+	public float lifeTime = 3.0f;
+	public float life;
 	// Use this for initialization
 	void Start () 
 	{
-
-		GetComponent<MeshRenderer>().renderer.material.color = new Color(life, life, life);
+		life = lifeTime;
+		GetComponent<MeshRenderer>().renderer.material.color = new Color(life/lifeTime, 0, 0, 1);
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		GetComponent<MeshRenderer>().renderer.material.color = new Color(life, life, life);
-		
+		if(life < 0)
+		{
+			life = 0;
+			Destroy(this.gameObject);
+		}
+		GetComponent<MeshRenderer>().renderer.material.color = new Color(life/lifeTime, 0, 0, 1);
+
+
 	}
 
-	void OnTriggerStay(Collider col)
+	public void ReduceLife()
 	{
-		Debug.Log("Triggered Collision");
-		
-		if(col.gameObject.tag == "Player")
-		{
-			life -= Time.deltaTime;
-		}
+		life -= Time.deltaTime;
+	}
+	public void ResetLife()
+	{
+		life = lifeTime;
+
 	}
 }
