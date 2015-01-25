@@ -31,7 +31,8 @@ public class CharacterMovement : MonoBehaviour
 		_moveDirection.y -= _gravity * Time.deltaTime;
 		_controller.Move(_moveDirection);
 
-		_animator.SetFloat("Speed", _controller.velocity.magnitude);
+		_animator.SetFloat("Speed", _controller.velocity.magnitude / Speed);
+		_animator.SetBool("Pushing", Input.GetButton("Jump"));
 
 	}
 }
