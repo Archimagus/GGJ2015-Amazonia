@@ -24,7 +24,7 @@ public class PickUpChest : MonoBehaviour {
 		if(col.gameObject.tag == "Chest" && !player.GetComponent<CharacterMovement>().carryingChest)
 		{
 			canPush = true;
-			if(Input.GetKeyDown(KeyCode.Space))
+			if(Input.GetButtonDown("Jump"))
 			{
 
 				float dotProduct = Vector3.Dot(col.gameObject.transform.forward, player.transform.forward);

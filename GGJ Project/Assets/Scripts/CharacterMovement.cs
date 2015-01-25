@@ -9,22 +9,22 @@ public class CharacterMovement : MonoBehaviour
 	public float RotationSpeed = 10.0f;
 	public bool carryingChest = false;
 	public bool pushingChest = false;
+	private bool performingActionAnimation = false;
 	float gravity = 20.0f;
 	float canDropTimer = 0.5f;
 
 	Vector3 moveDirection = Vector3.zero;
 	CharacterController controller;
-	GameObject chestDrop;
 	GameObject chestNode;
 	Animator animator;
 	GameObject pushingObject;
 	GameObject playerForward;
 	Transform pickedUpObject;
+	int pickedUpObjectLayer;
 	// Use this for initialization
 	void Start ()
 	{
 		chestNode = GameObject.Find("ChestNode");
-		chestDrop = GameObject.Find("ChestDrop");
 		playerForward = GameObject.Find("PlayerForward");
 		animator = GetComponent<Animator>();
 	}
@@ -36,7 +36,7 @@ public class CharacterMovement : MonoBehaviour
 		{
 			canDropTimer -= Time.deltaTime;
 
-			if(canDropTimer < 0 && Input.GetKeyDown(KeyCode.Space))
+			if(canDropTimer < 0 && Input.GetButtonDown("Jump"))
 			{
 				DropChest();
 				canDropTimer = 0.5f;
@@ -45,7 +45,7 @@ public class CharacterMovement : MonoBehaviour
 
 		//transform.Rotate(new Vector3(0, 90 * Time.deltaTime, 0));
 		controller = GetComponent<CharacterController>();
-		if(controller.isGrounded)
+		if (controller.isGrounded && !performingActionAnimation)
 		{
 			moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 			if(moveDirection.sqrMagnitude > 0.01f)
@@ -66,21 +66,6 @@ public class CharacterMovement : MonoBehaviour
 			pushingChest = true;
 			Vector3 V_Distance = transform.position - pushingObject.transform.position;
 
-
-
-
-
-			if(Input.GetAxis("Vertical") <= 0)
-			{
-				pushingObject.transform.parent = null;
-				pushingObject = null;
-				pushingChest = false;
-			}
-			else
-			{
-				pushingObject.transform.parent = chestDrop.transform;
-				pushingObject.transform.position = chestDrop.transform.position;
-			}
 		}
 
 		animator.SetFloat("Speed", controller.velocity.magnitude / Speed);
@@ -88,14 +73,21 @@ public class CharacterMovement : MonoBehaviour
 	public void Pushed()
 	{
 		animator.SetBool("Pushing", true);
+		performingActionAnimation = false;
 	}
 	public void Lifted()
 	{
-		animator.SetBool("Lifting", true);
-		carryingChest = true;
-
-		pickedUpObject.parent = chestNode.transform;
-		pickedUpObject.position = chestNode.transform.position;
+		if (!carryingChest)
+		{
+			animator.SetBool("Lifting", true);
+			carryingChest = true;
+			performingActionAnimation = false;
+			pickedUpObject.parent = chestNode.transform;
+			pickedUpObject.position = chestNode.transform.position;
+			pickedUpObject.rigidbody.isKinematic = true;
+			pickedUpObjectLayer = pickedUpObject.gameObject.layer;
+			pickedUpObject.gameObject.layer = LayerMask.NameToLayer("HeldObject");
+		}
 	}
 
 	public bool IsCarryingChest()
@@ -107,14 +99,16 @@ public class CharacterMovement : MonoBehaviour
 	{
 		pickedUpObject = ob;
 		animator.SetTrigger("Lift");
+		performingActionAnimation = true;
 	}
 	public void DropChest()
 	{
 		carryingChest = false;
 		animator.SetBool("Lifting", false);
 
+		pickedUpObject.gameObject.layer = pickedUpObjectLayer;
 		pickedUpObject.transform.parent = null;
-		pickedUpObject.transform.position = chestDrop.transform.position;
+		pickedUpObject.rigidbody.isKinematic = false;
 	}
 
 	public bool IsPushingChest()
@@ -126,6 +120,7 @@ public class CharacterMovement : MonoBehaviour
 	{
 		pushingChest = true;
 		animator.SetTrigger("Push");
+		performingActionAnimation = true;
 	}
 	public void OffPushingChest()
 	{
