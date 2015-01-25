@@ -17,11 +17,14 @@ public class CharacterMovement : MonoBehaviour
 	GameObject chestDrop;
 	GameObject chest;
 	Animator animator;
+	GameObject pushingObject;
+	GameObject playerForward;
 	// Use this for initialization
 	void Start () 
 	{
 		chestDrop = GameObject.Find("ChestDrop");
 		chest = GameObject.Find("Chest");
+		playerForward = GameObject.Find("PlayerForward");
 		animator = GetComponent<Animator>();
 	}
 	
@@ -40,18 +43,7 @@ public class CharacterMovement : MonoBehaviour
 				canDropTimer = 0.5f;
 			}
 		}
-		if(pushingChest == true)
-		{
-			canDropTimer -= Time.deltaTime;
-			
-			if(canDropTimer < 0 && Input.GetKeyDown(KeyCode.F))
-			{
-				chest.transform.parent = null;
-				chest.transform.position = chestDrop.transform.position;
-				OffPushingChest();
-				canDropTimer = 0.5f;
-			}
-		}
+
 		//transform.Rotate(new Vector3(0, 90 * Time.deltaTime, 0));
 		controller = GetComponent<CharacterController>();
 		if(controller.isGrounded)
@@ -68,6 +60,26 @@ public class CharacterMovement : MonoBehaviour
 		}
 		moveDirection.y -= gravity * Time.deltaTime;
 		controller.Move(moveDirection);
+
+		if(pushingObject != null)
+		{
+			pushingChest = true;
+			Vector3 V_Distance = transform.position - pushingObject.transform.position;
+			float distance = V_Distance.magnitude;
+			Vector3 pushDirection = V_Distance.normalized;
+			Vector3 forward = this.transform.forward;
+			if(Input.GetAxis("Vertical") <= 0)
+			{
+				pushingObject.transform.parent = null;
+				pushingObject = null;
+				pushingChest = false;
+			}
+			else
+			{
+				pushingObject.transform.parent = chestDrop.transform;
+				pushingObject.transform.position = chestDrop.transform.position;
+			}
+		}
 
 		animator.SetFloat("Speed", controller.velocity.magnitude / Speed);
 		animator.SetBool("Pushing", Input.GetButton("Jump"));
@@ -104,11 +116,10 @@ public class CharacterMovement : MonoBehaviour
 
 	void OnControllerColliderHit(ControllerColliderHit hit)
 	{
-		//if(col.gameObject.tag == "Player")
-		//{
-		//	Debug.Log("oiaudjnf");
-		//}
-
-
+		if(hit.transform.tag == "Chest" && playerForward.GetComponent<PickUpChest>().CanPush())
+		{
+			Debug.Log("got to da chest");
+			pushingObject = hit.transform.gameObject;
+		}
 	}
 }
