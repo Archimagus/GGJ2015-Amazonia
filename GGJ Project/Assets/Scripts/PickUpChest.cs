@@ -26,6 +26,7 @@ public class PickUpChest : MonoBehaviour {
 			canPush = true;
 			if(Input.GetKeyDown(KeyCode.Space))
 			{
+				transform.parent.SendMessage("PickUpChest", col.transform);
 
 				float dotProduct = Vector3.Dot(col.gameObject.transform.forward, player.transform.forward);
 				
