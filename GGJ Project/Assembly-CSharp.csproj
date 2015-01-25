@@ -50,7 +50,12 @@
      <Compile Include="Assets\Scripts\CameraControls.cs" />
      <Compile Include="Assets\Scripts\CharacterMovement.cs" />
      <Compile Include="Assets\Scripts\DartShooter.cs" />
+     <Compile Include="Assets\Scripts\DestroyDartOnCollision.cs" />
      <Compile Include="Assets\Scripts\DestroyObject.cs" />
+     <Compile Include="Assets\Scripts\PickUpChest.cs" />
+     <Compile Include="Assets\Scripts\PlayerDetector.cs" />
+     <Compile Include="Assets\Scripts\PressurePlate.cs" />
+     <Compile Include="Assets\Scripts\PushChest.cs" />
      <Compile Include="Assets\Scripts\SpikeStopper.cs" />
      <Compile Include="Assets\Scripts\Spikes.cs" />
  <Reference Include="UnityEngine.UI">
