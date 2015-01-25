@@ -10,10 +10,11 @@ public class Spikes : MonoBehaviour {
 	bool activated = false;
 	bool raised = false;
 	bool active = true;
+	AudioClip sound;
 	// Use this for initialization
 	void Start () 
 	{
-	
+		sound = GetComponent<AudioSource>().clip;
 	}
 	
 	// Update is called once per frame
@@ -36,6 +37,7 @@ public class Spikes : MonoBehaviour {
 
 		if(activated && raised == false)
 		{
+			audio.Play();
 			float step = 5 * Time.deltaTime;
 			transform.position = Vector3.MoveTowards(this.transform.position, activeTarget.position, step);
 
@@ -66,7 +68,6 @@ public class Spikes : MonoBehaviour {
 
 	public void OnActivated()
 	{
-		Debug.Log("spikes deactivated");
 		active = false;
 	}
 	
