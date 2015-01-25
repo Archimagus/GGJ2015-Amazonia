@@ -3,7 +3,7 @@ using System.Collections;
 
 public class DestroyDartOnCollision : MonoBehaviour {
 
-	public GameObject impact;
+	public AudioClip impactSound;
 	// Use this for initialization
 	void Start () 
 	{
@@ -17,7 +17,7 @@ public class DestroyDartOnCollision : MonoBehaviour {
 
 	void OnTriggerEnter(Collider col)
 	{
-		Instantiate(impact, col.transform.position, col.transform.rotation);
+		//this.PlaySoundEffect (impactSound, SoundType.SoundEffect, transform.position);
 		Destroy(this.gameObject);
 	}
 }
