@@ -1,23 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(CharacterController), typeof(Animator))]
 public class CharacterMovement : MonoBehaviour 
 {
+	public float Speed = 5.0f;
 	public float slowRatio = 0.5f;
 	public bool carryingChest = false;
 	public bool pushingChest = false;
-	float speed = 5.0f;
 	float gravity = 20.0f;
 	float canDropTimer = 0.5f;
+
 	Vector3 moveDirection = Vector3.zero;
 	CharacterController controller;
 	GameObject chestDrop;
 	GameObject chest;
+	Animator animator;
 	// Use this for initialization
 	void Start () 
 	{
 		chestDrop = GameObject.Find("ChestDrop");
 		chest = GameObject.Find("Chest");
+		animator = GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
@@ -59,10 +63,13 @@ public class CharacterMovement : MonoBehaviour
 				ratio = slowRatio;
 			if(pushingChest)
 				ratio = slowRatio;
-			moveDirection *= ratio * speed * Time.deltaTime;
+			moveDirection *= ratio * Speed * Time.deltaTime;
 		}
 		moveDirection.y -= gravity * Time.deltaTime;
 		controller.Move(moveDirection);
+
+		animator.SetFloat("Speed", controller.velocity.magnitude / Speed);
+		animator.SetBool("Pushing", Input.GetButton("Jump"));
 	}
 
 	public bool IsCarryingChest()
