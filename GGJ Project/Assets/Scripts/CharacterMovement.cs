@@ -205,6 +205,21 @@ public class CharacterMovement : MonoBehaviour
 		}
 	}
 
+	public void OnTriggerEnter(Collider other)
+	{
+		var damage = other.GetComponent<PlayerDamager>();
+		if (damage != null)
+			TakeDamage(damage.DamageAmmount);
+	}
+
+	public void OnCollisionEnter(Collision collision)
+	{
+		var damage = collision.gameObject.GetComponent<PlayerDamager>();
+		if (damage != null)
+			TakeDamage(damage.DamageAmmount);
+
+	}
+	
 	public void TakeDamage(int damage)
 	{
 		coins -= damage;
