@@ -10,8 +10,6 @@ public class PlayerDetector : MonoBehaviour {
 	void Start () 
 	{
 		player = GameObject.Find("Player");
-		if(particle.isPlaying)
-			particle.Stop();
 	}
 	
 	// Update is called once per frame
@@ -28,6 +26,8 @@ public class PlayerDetector : MonoBehaviour {
 
 			if(player.GetComponent<CharacterMovement>().IsCarryingChest() == true)
 			{
+				if(audio.isPlaying == false)
+					audio.Play();
 				floor.SendMessage("ReduceLife");
 				if(particle.isStopped)
 					particle.Play();
@@ -40,6 +40,7 @@ public class PlayerDetector : MonoBehaviour {
 	{
 		if(particle.isPlaying)
 			particle.Stop();
+		audio.Stop();
 		floor.GetComponent<BreakableFloor>().ResetLife();
 	}
 
