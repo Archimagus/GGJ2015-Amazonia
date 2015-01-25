@@ -24,9 +24,7 @@ public class PickUpChest : MonoBehaviour {
 			canPush = true;
 			if(Input.GetKeyDown(KeyCode.Space))
 			{
-				transform.parent.SendMessage("ToggleCarryingChest");
-				col.transform.parent = chestNode.transform;
-				col.transform.position = chestNode.transform.position;
+				transform.parent.SendMessage("PickUpChest", col.transform);
 			}
 
 		}

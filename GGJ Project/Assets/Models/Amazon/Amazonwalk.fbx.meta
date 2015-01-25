@@ -127,7 +127,7 @@ ModelImporter:
       - path: 
         weight: 1
       - path: Amazon
-        weight: 0
+        weight: 1
       - path: metarig
         weight: 1
       - path: metarig/hips
@@ -318,7 +318,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: .997311234
+        functionName: Pushed
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1
@@ -416,7 +423,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: .997312129
+        functionName: Lifted
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1
@@ -504,22 +518,22 @@ ModelImporter:
       loop: 0
       loopTime: 1
       loopBlend: 1
-      loopBlendOrientation: 1
-      loopBlendPositionY: 1
-      loopBlendPositionXZ: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 1
       heightFromFeet: 0
       mirror: 0
-      bodyMask: 01000000010000000100000000000000000000000100000001000000010000000100000000000000000000000000000000000000
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events: []
       transformMask:
       - path: 
         weight: 1
       - path: Amazon
-        weight: 0
+        weight: 1
       - path: metarig
         weight: 1
       - path: metarig/hips
@@ -610,14 +624,14 @@ ModelImporter:
       keepOriginalPositionXZ: 1
       heightFromFeet: 0
       mirror: 0
-      bodyMask: 00000000010000000100000000000000000000000100000001000000010000000100000000000000000000000000000000000000
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events: []
       transformMask:
       - path: 
         weight: 1
       - path: Amazon
-        weight: 0
+        weight: 1
       - path: metarig
         weight: 1
       - path: metarig/hips
