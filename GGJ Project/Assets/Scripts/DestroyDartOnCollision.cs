@@ -13,7 +13,7 @@ public class DestroyDartOnCollision : MonoBehaviour {
 	
 	}
 
-	void OnCollisionEnter(Collision col)
+	void OnTriggerEnter(Collider col)
 	{
 		Destroy(this.gameObject);
 	}
