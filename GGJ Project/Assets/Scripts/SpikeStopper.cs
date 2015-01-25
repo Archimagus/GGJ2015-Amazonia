@@ -17,7 +17,7 @@ public class SpikeStopper : MonoBehaviour {
 
 	void OnTriggerStay(Collider col)
 	{		
-		if(col.gameObject.tag == "Chest")
+		if(col.gameObject.tag == "Chest" || col.gameObject.tag == "Boulder")
 		{
 			spikes.SendMessage("ResetCurrentTime");
 			//spikes.ResetCurrentTime();

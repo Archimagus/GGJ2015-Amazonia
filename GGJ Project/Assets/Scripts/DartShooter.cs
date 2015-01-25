@@ -43,6 +43,7 @@ public class DartShooter : MonoBehaviour {
 
 	public void OnActivated()
 	{
+		Debug.Log("darts deactivated");
 		active = false;
 	}
 

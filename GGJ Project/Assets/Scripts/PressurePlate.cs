@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PressurePlate : MonoBehaviour {
 
-	public GameObject controlledObject;
+	public GameObject[] controlledObject;
 	public GameObject pressurePlate;
 	public float weightTrigger = 1;
 	float dropValue = 0.1f;
@@ -31,9 +31,10 @@ public class PressurePlate : MonoBehaviour {
 		{
 			pressurePlate.transform.position = new Vector3(pressurePlate.transform.position.x, pressurePlate.transform.position.y-dropValue, pressurePlate.transform.position.z);
 			activated = true;
-			if(controlledObject != null)
+			if(controlledObject.Length > 0)
 			{
-				controlledObject.SendMessage("OnActivated");
+                for(int i = 0; i < controlledObject.Length; i++)
+				    controlledObject[i].SendMessage("OnActivated");
 			}
 		}
 	}
@@ -44,7 +45,8 @@ public class PressurePlate : MonoBehaviour {
 		{
 			pressurePlate.transform.position = new Vector3(pressurePlate.transform.position.x, pressurePlate.transform.position.y+dropValue, pressurePlate.transform.position.z);
 			activated = false;
-			controlledObject.SendMessage("OnDeactivated");
+			 for(int i = 0; i < controlledObject.Length; i++)
+				    controlledObject[i].SendMessage("OnDeactivated");
 		}
 	}
 	public bool IsActivated()
