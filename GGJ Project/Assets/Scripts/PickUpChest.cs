@@ -4,12 +4,11 @@ using System.Collections;
 public class PickUpChest : MonoBehaviour {
 
 	GameObject chestNode;
-	GameObject dropNode;
+	bool canPush = false;
 	// Use this for initialization
 	void Start () 
 	{
 		chestNode = transform.parent.FindChild("ChestNode").gameObject;
-		dropNode = transform.parent.FindChild("ChestDrop").gameObject;
 	}
 	
 	// Update is called once per frame
@@ -22,6 +21,7 @@ public class PickUpChest : MonoBehaviour {
 	{
 		if(col.gameObject.tag == "Chest")
 		{
+			canPush = true;
 			if(Input.GetKeyDown(KeyCode.Space))
 			{
 				transform.parent.SendMessage("ToggleCarryingChest");
@@ -30,5 +30,19 @@ public class PickUpChest : MonoBehaviour {
 			}
 
 		}
+	}
+
+	void OnTriggerExit(Collider col)
+	{
+		if(col.gameObject.tag == "Chest")
+		{
+			canPush = false;
+		}
+
+	}
+
+	public bool CanPush()
+	{
+		return canPush;
 	}
 }
