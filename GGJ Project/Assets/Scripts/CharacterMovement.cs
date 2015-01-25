@@ -39,7 +39,7 @@ public class CharacterMovement : MonoBehaviour
 			{
 				chest.transform.parent = null;
 				chest.transform.position = chestDrop.transform.position;
-				ToggleCarryingChest();
+				OffCarryingChest();
 				canDropTimer = 0.5f;
 			}
 		}
@@ -65,9 +65,11 @@ public class CharacterMovement : MonoBehaviour
 		{
 			pushingChest = true;
 			Vector3 V_Distance = transform.position - pushingObject.transform.position;
-			float distance = V_Distance.magnitude;
-			Vector3 pushDirection = V_Distance.normalized;
-			Vector3 forward = this.transform.forward;
+
+
+
+
+
 			if(Input.GetAxis("Vertical") <= 0)
 			{
 				pushingObject.transform.parent = null;
@@ -90,9 +92,14 @@ public class CharacterMovement : MonoBehaviour
 		return carryingChest;
 	}
 
-	public void ToggleCarryingChest()
+	public void OnCarryingChest()
 	{
-		carryingChest = !carryingChest;
+		carryingChest = true;
+	}
+
+	public void OffCarryingChest()
+	{
+		carryingChest = false;
 	}
 
 	public bool IsPushingChest()
@@ -118,8 +125,7 @@ public class CharacterMovement : MonoBehaviour
 	{
 		if(hit.transform.tag == "Chest" && playerForward.GetComponent<PickUpChest>().CanPush())
 		{
-			Debug.Log("got to da chest");
-			pushingObject = hit.transform.gameObject;
+			//pushingObject = hit.transform.gameObject;
 		}
 	}
 }
