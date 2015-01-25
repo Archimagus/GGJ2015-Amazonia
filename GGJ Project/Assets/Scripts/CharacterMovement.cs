@@ -32,12 +32,19 @@ public class CharacterMovement : MonoBehaviour
 	GameObject playerForward;
 	Transform pickedUpObject;
 	int pickedUpObjectLayer;
+	
+	HUDScript hudScript;
+	
 	// Use this for initialization
 	void Start ()
 	{
 		chestNode = GameObject.Find("ChestNode");
 		playerForward = GameObject.Find("PlayerForward");
 		animator = GetComponent<Animator>();
+		
+		hudScript = GameObject.Find("scoreText").GetComponent<HUDScript>();
+		
+		hudScript.score = coins;
 	}
 	
 	// Update is called once per frame
@@ -247,6 +254,8 @@ public class CharacterMovement : MonoBehaviour
 		coins -= damage;
 		if (coins < 0)
 			coins = 0;
+
+		hudScript.score = coins;
 
 		if (coins == 0)
 			Application.LoadLevel("Credits");

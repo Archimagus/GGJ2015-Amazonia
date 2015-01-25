@@ -17,5 +17,8 @@ public class HUDScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		scoreText.text = "Treasure: " + score + "/" + maxScore;
+		//Input.getb
+		if (Input.GetButton("Cancel"))//Down("Cancel"))
+			Application.LoadLevel("MainMenu");
 	}
 }
