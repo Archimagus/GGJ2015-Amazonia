@@ -7,7 +7,7 @@ public class CharacterMovement : MonoBehaviour
 	public AudioClip PickUpSound;
 	public AudioClip DropSound;
 
-
+	public int coins = 100;
 	public float Speed = 5.0f;
 	public float SlowRatio = 0.5f;
 	public float RotationSpeed = 10.0f;
@@ -157,5 +157,15 @@ public class CharacterMovement : MonoBehaviour
 		{
 			//pushingObject = hit.transform.gameObject;
 		}
+	}
+
+	public void TakeDamage(int damage)
+	{
+		coins -= damage;
+		if (coins < 0)
+			coins = 0;
+
+		if (coins == 0)
+			Application.LoadLevel("Credits");
 	}
 }
