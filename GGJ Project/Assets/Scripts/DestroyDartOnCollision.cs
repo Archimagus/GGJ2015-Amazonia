@@ -15,7 +15,7 @@ public class DestroyDartOnCollision : MonoBehaviour {
 	
 	}
 
-	void OnCollisionEnter(Collision col)
+	void OnTriggerEnter(Collider col)
 	{
 		Instantiate(impact, col.transform.position, col.transform.rotation);
 		Destroy(this.gameObject);
