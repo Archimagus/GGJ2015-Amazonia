@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class FollowCamera : MonoBehaviour 
 {
-	public Transform FollowTarget;
+	private Transform FollowTarget;
 	public float SmoothTime = 0.2f;
 
 	private Vector3 _offset;
@@ -11,6 +11,8 @@ public class FollowCamera : MonoBehaviour
 
 	void Start()
 	{
+		FollowTarget = transform.parent;
+		transform.parent = null;
 		_offset = transform.position - FollowTarget.transform.position;
 	}
 	void Update () 
