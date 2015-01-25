@@ -5,7 +5,8 @@ using System.Collections;
 public class CharacterMovement : MonoBehaviour 
 {
 	public float Speed = 5.0f;
-	public float slowRatio = 0.5f;
+	public float SlowRatio = 0.5f;
+	public float RotationSpeed = 10.0f;
 	public bool carryingChest = false;
 	public bool pushingChest = false;
 	float gravity = 20.0f;
@@ -56,13 +57,13 @@ public class CharacterMovement : MonoBehaviour
 		if(controller.isGrounded)
 		{
 			moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-			moveDirection = transform.TransformDirection(moveDirection);
+			transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(moveDirection.normalized), RotationSpeed);
 
 			float ratio = 1.0f;
 			if(carryingChest)
-				ratio = slowRatio;
+				ratio = SlowRatio;
 			if(pushingChest)
-				ratio = slowRatio;
+				ratio = SlowRatio;
 			moveDirection *= ratio * Speed * Time.deltaTime;
 		}
 		moveDirection.y -= gravity * Time.deltaTime;
