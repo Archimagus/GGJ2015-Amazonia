@@ -56,7 +56,7 @@ public class PressurePlate : MonoBehaviour {
 			audio.clip = clips[1];
 			audio.Play();
 			 for(int i = 0; i < controlledObject.Length; i++)
-				    controlledObject[i].SendMessage("OnDeactivated");
+				    controlledObject[i].SendMessage("OnDeactivated", SendMessageOptions.DontRequireReceiver);
 		}
 	}
 	public bool IsActivated()

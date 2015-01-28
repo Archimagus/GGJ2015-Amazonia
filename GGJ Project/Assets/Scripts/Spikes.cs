@@ -9,7 +9,7 @@ public class Spikes : MonoBehaviour {
 	float currentTime = 0;
 	bool activated = false;
 	bool raised = false;
-	bool active = true;
+	bool isActive = true;
 	// Use this for initialization
 	void Start () 
 	{
@@ -20,7 +20,7 @@ public class Spikes : MonoBehaviour {
 	{
 
 
-		if(!active && !activated && !raised)
+		if(!isActive && !activated && !raised)
 			return;
 
 		delay -= Time.deltaTime;
@@ -68,12 +68,12 @@ public class Spikes : MonoBehaviour {
 
 	public void OnActivated()
 	{
-		active = false;
+		isActive = false;
 	}
 	
 	public void OnDeactivated()
 	{
-		active = true;
+		isActive = true;
 	}
 
 

@@ -9,7 +9,7 @@ public class DartShooter : MonoBehaviour {
 	public float timeInterval = 1;
 	float currentTime = 0;
 	bool activated = false;
-	bool active = true;
+	bool isActive = true;
 	//bool raised = false;
 	// Use this for initialization
 	void Start () 
@@ -20,7 +20,7 @@ public class DartShooter : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		if(!active)
+		if(!isActive)
 			return;
 		delay -= Time.deltaTime;
 		if(!activated && delay < 0)
@@ -45,12 +45,11 @@ public class DartShooter : MonoBehaviour {
 
 	public void OnActivated()
 	{
-		Debug.Log("darts deactivated");
-		active = false;
+		isActive = false;
 	}
 
 	public void OnDeactivated()
 	{
-		active = true;
+		isActive = true;
 	}
 }

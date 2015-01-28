@@ -11,6 +11,7 @@ public class CharacterMovement : MonoBehaviour
 	public AudioClip DamageSoundWithCoins;
 	public AudioClip DamageSoundNoCoins;
 
+	public float KillBelow_Y = -10;
 	public int coins = 100;
 	public float Speed = 5.0f;
 	public float SlowRatio = 0.5f;
@@ -28,7 +29,6 @@ public class CharacterMovement : MonoBehaviour
 	CharacterController controller;
 	GameObject chestNode;
 	Animator animator;
-	GameObject pushingObject;
 	GameObject playerForward;
 	Transform pickedUpObject;
 	int pickedUpObjectLayer;
@@ -41,7 +41,7 @@ public class CharacterMovement : MonoBehaviour
 		chestNode = GameObject.Find("ChestNode");
 		playerForward = GameObject.Find("PlayerForward");
 		animator = GetComponent<Animator>();
-		
+
 		hudScript = GameObject.Find("scoreText").GetComponent<HUDScript>();
 		
 		hudScript.score = coins;
@@ -50,6 +50,9 @@ public class CharacterMovement : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
+
+		if (transform.position.y < KillBelow_Y)
+			TakeDamage(10);
 		if(carryingChest == true)
 		{
 			canDropTimer -= Time.deltaTime;
@@ -81,31 +84,27 @@ public class CharacterMovement : MonoBehaviour
 		if (controller.isGrounded && !performingActionAnimation)
 		{
 			moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-			if(moveDirection.sqrMagnitude > 0.01f)
+			if (moveDirection.sqrMagnitude > 0.01f)
 				transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(moveDirection.normalized), RotationSpeed);
 
 			float ratio = 1.0f;
-			if(carryingChest)
+			if (carryingChest)
 				ratio = SlowRatio;
-			if(pushingChest)
+			if (pushingChest)
 				ratio = SlowRatio;
-			if(carryingBoulder)
+			if (carryingBoulder)
 				ratio = SlowRatio;
 			moveDirection *= ratio * Speed * Time.deltaTime;
 		}
+		else
+			moveDirection = Vector3.zero;
 		moveDirection.y -= gravity * Time.deltaTime;
 		controller.Move(moveDirection);
 
-		if(pushingObject != null)
-		{
-			pushingChest = true;
-			Vector3 V_Distance = transform.position - pushingObject.transform.position;
-
-		}
 		float speed = controller.velocity.magnitude / Speed;
 		animator.SetFloat("Speed", speed);
 
-		if(speed > 0.5f || (speed > 0.2f && carryingChest))
+		if(speed > 0.5f || (speed > 0.2f && (carryingChest || carryingBoulder || pushingChest)))
 		{
 			ExertionTime += Time.deltaTime;
 		}
@@ -123,10 +122,15 @@ public class CharacterMovement : MonoBehaviour
 	}
 	public void Lifted()
 	{
-		if (!carryingChest)
+		if (!carryingChest && !carryingBoulder)
 		{
 			animator.SetBool("Lifting", true);
-			carryingChest = true;
+
+			if (pickedUpObject.tag == "Boulder")
+				carryingBoulder = true;
+			else if(pickedUpObject.tag == "Chest")
+				carryingChest = true;
+
 			performingActionAnimation = false;
 			pickedUpObject.parent = chestNode.transform;
 			pickedUpObject.position = chestNode.transform.position;
@@ -170,7 +174,6 @@ public class CharacterMovement : MonoBehaviour
 
 	public void PickUpBoulder(Transform ob)
 	{
-		carryingBoulder = true;
 		pickedUpObject = ob;
 		animator.SetTrigger("Lift");
 		performingActionAnimation = true;
@@ -258,6 +261,8 @@ public class CharacterMovement : MonoBehaviour
 		hudScript.score = coins;
 
 		if (coins == 0)
-			Application.LoadLevel("Credits");
+		{
+			Application.LoadLevel(Application.loadedLevel);
+		}
 	}
 }

@@ -1,15 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PickUpChest : MonoBehaviour {
-
-	GameObject chestNode;
+public class PickUpChest : MonoBehaviour 
+{
 	bool canPush = false;
 	GameObject player;
 	// Use this for initialization
 	void Start () 
 	{
-		chestNode = GameObject.Find("ChestNode");
 		player = GameObject.Find("Player");
 	}
 	
